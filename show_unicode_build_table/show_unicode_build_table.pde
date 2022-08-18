@@ -41,10 +41,10 @@ class Word {
 ArrayList<Word> words;
 Word now;
 void setup(){
-  size(600,600);
+  size(600,800);
   words = new ArrayList<Word>();
   now = new Word(width/2, height/2);
-  now.setPos(width/2, height/2);
+  now.setPos(width/2-50, height-180);
   
   myLoadTable(); //如果存在 table.txt 便將全部的資料讀入
 
