@@ -25,10 +25,10 @@
 ## show_unicode_create_table
 這個程式, 可連續輸入 4碼 Unicode, 再逐一秀出對應的中文字, 並建立table檔
 - 輸入4碼會秀出中文字, 正確時按 SPACE or ENTER 便可確認送出
-- 輸入欄位 now 可用 mouseDragged() 移動位置
+- 輸入欄位 now 可用 `mouseDragged()` 移動位置
 - 輸入錯誤可按 BACKSPACE 清除字碼或更多
-- 關於讀檔 myLoadTable(): 在setup()時如果存在table.txt便會讀入
-- 關於寫檔 mySaveTable(): 每次輸入確定時, 便會寫檔
+- 關於讀檔 `myLoadTable()`: 在setup()時如果存在table.txt便會讀入
+- 關於寫檔 `mySaveTable()`: 每次輸入確定時, 便會寫檔
 - 已完成 table.txt 第1頁, 手動換頁即可
 - 程式碼在處理部分香港字(如 Page 43 的 28468(𨑨),23350(𣍐), 會有問題。目前手動修改table.txt
 - Java 無法將 \u28468 和 \u23350 正確顯示
@@ -42,9 +42,10 @@
 - 可把 table 目錄下的 table_xx.txt 的內容秀出來,
 - 利用 `mouseWheel()` 來調整視窗的大小 `surface.setSize()`, 再計算字的相對位置並畫出
 - 利用 `mouseDragged()` 調整(整篇文字的)Y捲動位置 shiftY
+- 利用 `keyPressed()` 的 `LEFT` 和 `RIGHT` 來切換不同檔案, 逐一秀出來
+- 檔案名會秀在程式的左上角, 方便了解正在秀哪一個檔案
 - 手動使用上面操作, 讓寬度與(放背景)掃描稿一致, 方便逐一校對字稿
 
-TODO(每一頁)逐一秀出來
 
 ![show_table_proofreading.png](show_table_proofreading.png)
 

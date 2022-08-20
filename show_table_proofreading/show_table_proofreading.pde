@@ -38,10 +38,25 @@ class Word {
   }
 }
 ArrayList<Word> words=null;
+
+int fileID=0;
+ArrayList<String> filenames;
+ArrayList<String> myFindAllTables(){
+  ArrayList<String> list = new ArrayList<String>();
+  for(int i=1; i<=89; i++){
+    if(i==61 || i==62) continue; //日文假名符號
+    if(i>=65 && i<=70) continue; //日文漢字
+    list.add( "table/table_" + nf(i,2) + ".txt" );
+  }
+  return list;
+}
+
 void myLoadTable(String filename){
   String [] lines = loadStrings(filename);
   if(lines==null) return; //讀檔失敗時, 提早離開
-  if(words==null) words = new ArrayList<Word>();
+  if(words==null) words = new ArrayList<Word>(); //第一次用時,要建構
+  else words.removeAll(words); //每次要讀時, 要把 words 清空
+  
   for(int i=0; i<lines.length; i++){
     String [] fields = splitTokens( lines[i], ",()" );
     for(int k=0; k<fields.length/2; k++){
@@ -51,12 +66,28 @@ void myLoadTable(String filename){
     }
   }  
 }
+void keyPressed(){
+  if( keyCode==RIGHT ){
+    fileID = ( fileID + 1 ) % filenames.size();
+    myLoadTable( filenames.get(fileID) );
+    myResize();
+  }else if( keyCode==LEFT ){
+    fileID = ( fileID - 1 + filenames.size() ) % filenames.size();
+    myLoadTable( filenames.get(fileID) );
+    myResize();
+  }
+  println(fileID);
+}
 void setup(){
   size(1730,200);
   surface.setResizable(true);
   surface.setLocation(50, 100);
-  myLoadTable("table_89.txt");
+  
+  filenames = myFindAllTables();
+  myLoadTable( filenames.get(fileID) ); //myLoadTable("table/table_01.txt");
+  
   myResize();
+  
   PFont font = createFont("微軟正黑體", 80);
   textFont(font);
 }
@@ -68,6 +99,11 @@ void draw(){
   for( Word w : words ){
     w.draw(width/10/4.5);
   }
+  fill(255);
+  rect(0, 0, textWidth( "  " + filenames.get(fileID))+20, width/10/4/2);
+  fill(0);
+  textAlign(LEFT,TOP);
+  text( "  " + filenames.get(fileID), 0, 0);
 }
 int width0 = 0, height0 = 0, shiftY = 0;
 void myResize(){ //我自己的 callback 函式
