@@ -37,6 +37,17 @@
 
 ![show_unicode_build_table2.png](show_unicode_build_table2.png)
 
+## show_table_proofreading
+校稿工具程式
+- 可把 table 目錄下的 table_xx.txt 的內容秀出來,
+- 利用 `mouseWheel()` 來調整視窗的大小 `surface.setSize()`, 再計算字的相對位置並畫出
+- 利用 `mouseDragged()` 調整(整篇文字的)Y捲動位置 shiftY
+- 手動使用上面操作, 讓寬度與(放背景)掃描稿一致, 方便逐一校對字稿
+
+TODO(每一頁)逐一秀出來
+
+![show_table_proofreading.png](show_table_proofreading.png)
+
 ## 目前對照表進度
 - 己完成 P1-P60 含字頻5600+英數符號4頁, 對應6000字
 - 已完成 P63,P64 日簡共用, 對應200字
@@ -46,7 +57,6 @@
 - (缺/略過)P61,P62 日本50音(平假、片假)、符號, P65-P70和製漢字
 
 ## TODO之後可做
-TODO: 校稿工具(標示特定解析度or可用mouseWheel來調整字的大小), 可以把 table目錄下的table_xx.txt 逐一秀出來, 讓寬度可以一致, 方便逐一校對字稿
 (8/20寫的 50-60應該都有二度校稿過, 出錯的機會變小)
 TODO: 影像處理, 把 PDF 變成圖檔, 再依綠色方塊進行切割
 TODO: 可以做出 Web APP, 以便在網頁中進行Unicode/中文字對照片, 也能進行字碼輸入/去查相關的文字典故
