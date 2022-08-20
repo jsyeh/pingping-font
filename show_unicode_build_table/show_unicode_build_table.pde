@@ -1,5 +1,5 @@
 // 這個程式, 可連續輸入 4碼 Unicode, 再逐一秀出對應的中文字
-// 輸入4碼會秀出中文字, 正確時按 SPACE or ENTER 便可確認送出
+// 輸入4碼/5碼會秀出中文字, 正確時按 SPACE or ENTER 便可確認送出
 // 輸入欄位 now 可用 mouseDragged() 移動位置
 // 輸入錯誤可按 BACKSPACE 清除字碼或更多
 // 關於讀檔 myLoadTable(): 在setup()時如果存在table.txt便會讀入
@@ -16,14 +16,14 @@ class Word {
     setPos(_x, _y);
   }
   Word(char c, int _x, int _y){
-    code = (int)c;
-    codeString = "" + hex(code, 4).toLowerCase();
+    code = (int)c; //TODO: 這個地方有問題, 針對部分香港字有5碼時會出錯
+    codeString = "" + hex(code, 4).toLowerCase(); //TODO: 有問題
     word = c;
     setPos(_x, _y);
   }
   Word(int _dec_code, int _x, int _y){
     code = _dec_code; //小心, 不能傳入 hex 字串
-    codeString = "" + hex(code, 4).toLowerCase();
+    codeString = "" + hex(code, 4).toLowerCase(); //TODO: 有問題
     word = (char)code;
     setPos(_x, _y);
   }
@@ -40,6 +40,8 @@ class Word {
 }
 ArrayList<Word> words;
 Word now;
+PFont [] fonts;
+int fontID = 0;
 void setup(){
   size(600,800);
   words = new ArrayList<Word>();
@@ -48,9 +50,10 @@ void setup(){
   
   myLoadTable(); //如果存在 table.txt 便將全部的資料讀入
 
-  //PFont font = createFont("微軟正黑體", 30); //繁體字用正黑
-  PFont font = createFont("SimSun", 30); //簡體字用新宋
-  textFont(font);
+  fonts = new PFont[2];
+  fonts[0] = createFont("微軟正黑體", 30); //繁體字用正黑
+  fonts[1] = createFont("SimSun", 30); //簡體字用新宋
+  textFont(fonts[0]); //之後可用 LEFT or RIGHT 鍵, 來切換繁簡字型
 }
 void draw(){
   background(#FFFFF2);
@@ -65,7 +68,11 @@ void draw(){
 int cursorX0=50, cursorY0=20;
 int cursorX=cursorX0, cursorY=cursorY0;
 void keyPressed(){
-  if((key==' ' || keyCode==ENTER) && now.codeString.length()==4){
+  if( keyCode==LEFT || keyCode==RIGHT ){
+    fontID = (fontID + 1) % 2; //可用 LEFT or RIGHT 鍵, 來切換繁簡字型
+    textFont( fonts[fontID] );
+  }
+  if( (key==' ' || keyCode==ENTER) && (now.codeString.length()==4 || now.codeString.length()==5) ){
     //當now的codeString湊齊4碼, 按下SPACE或ENTER,便送出, 進入words
     Word temp = new Word(now.x, now.y);
     words.add(now);
@@ -102,8 +109,9 @@ void keyPressed(){
     now.codeString += (key-'A'+'a');
     now.code = now.code * 16 + ( key - 'a' + 10 );
   }
-  if(now.codeString.length()==4) now.word = (char)now.code;
-  //集滿4碼,便將 word準備好, 再利用 text(word, 50, 300) 秀出來
+  if(now.codeString.length()==4) now.word = (char)now.code; //集滿4碼,便將 word準備好
+  if(now.codeString.length()==5) now.word = (char)now.code; //部分香港補充字是5碼
+  // now.word 會在 now.draw() 用 text(word, x, y) 秀出來
 }
 void mouseDragged(){
   now.x += (mouseX-pmouseX);
@@ -123,14 +131,17 @@ void myLoadTable(){
   String [] lines = loadStrings("table.txt");
   if(lines==null) return; //讀檔失敗時, 提早離開
   
-  words.removeAll(words);
+  if(words==null) words = new ArrayList<Word>(); //第一次用時,要建構
+  else words.removeAll(words); //每次要讀時, 要把 words 清空
+
   cursorX=cursorX0;
   cursorY=cursorY0;
   for(int i=0; i<lines.length; i++){
-    String [] fields = splitTokens( lines[i], ",()" );
+    String [] fields = splitTokens( lines[i], ",()" ); //TODO: 會誤把 ,() 3個符號也刪除,要想怎麼解
     for(int k=0; k<fields.length/2; k++){
       //小心,讀入的code是 hexdecimal code, 不能當 decimal code 傳給Word()
       Word one = new Word( fields[k*2+1].charAt(0), cursorX, cursorY );
+      one.codeString = new String( fields[k*2] ); //TODO: 需做一致性的檢查,codeString 與 word 是否對應正確
       words.add(one);
       cursorX += 50;
     }
