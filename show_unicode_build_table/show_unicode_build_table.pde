@@ -48,7 +48,8 @@ void setup(){
   
   myLoadTable(); //如果存在 table.txt 便將全部的資料讀入
 
-  PFont font = createFont("微軟正黑體", 30);
+  //PFont font = createFont("微軟正黑體", 30); //繁體字用正黑
+  PFont font = createFont("SimSun", 30); //簡體字用新宋
   textFont(font);
 }
 void draw(){
