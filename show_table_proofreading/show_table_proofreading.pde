@@ -85,6 +85,7 @@ void keyPressed(){
       fontID = 1; //但如果是簡體字的頁數, 改用簡體字型
     }
   }
+  if( filename.indexOf("25") != -1 ) fontID = 2;
   textFont( fonts[fontID] );
 }
 
@@ -100,9 +101,10 @@ void setup(){
   
   myResize();
   
-  fonts = new PFont[2];
-  fonts[0] = createFont("微軟正黑體", 80); //繁體字用正黑
+  fonts = new PFont[3];
+  fonts[0] = createFont("微軟正黑體", 80); //繁體字用微軟正黑體
   fonts[1] = createFont("SimSun", 80); //簡體字用新宋
+  fonts[2] = createFont("新細明體", 80); //Big5符號用新細明體
   textFont(fonts[0]); //之後依照頁數, 來切換繁簡字型
 }
 void draw(){
