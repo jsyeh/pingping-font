@@ -115,4 +115,4 @@
 - TODO: 可請教justfont字形設計師: 有哪些字容易寫錯/眼歪? 這些經驗很有價值
 - TODO: 可以去上課
 - TODO: 字型設計基礎9字: 永東國酬愛鬱靈鷹袋 + 今三力, 變出 300字部首、7200常用字、完整13053字 (3+8 to 300 to 7,200 to 13,053)
-- TODO: 2022-08-22 AI產生字型 5字生出1萬4000字 [筑波大學AI Venture字體生成系統專利申請](https://www.itmedia.co.jp/news/articles/2208/17/news178.html)
+- TODO: AI產生字型: 5字(久味旧模湖)生出1萬4000字 [筑波大學AI Venture字體生成系統專利申請](https://www.itmedia.co.jp/news/articles/2208/17/news178.html)
